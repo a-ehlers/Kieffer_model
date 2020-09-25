@@ -15,9 +15,9 @@ Natoms = 6
 ITEMP = 298
 AVO = 6.023*10**23
 SPEED = 3*10**10
-BOLTZ = 1.38*10**-16
-PLANCK = 6.625*10**-27
-R = 1.986467
+BOLTZ = 1.38*10**-23
+PLANCK = 6.626*10**-34
+R = 8.3145
 CONV = SPEED*PLANCK/BOLTZ
 
 ######################### ACOUSTIC MODES ###############################
@@ -28,6 +28,7 @@ u3 = Vp
 
 U_array = [u1, u2, u3]
 W_array = []
+X_array = []
 
 
 Vmol = Vol*0.6023/Z
@@ -41,9 +42,22 @@ print('Radius of Kmax of Brillouin zone (cm-1): ', '{:e}'.format(Kmax))
 for i in U_array:
     W_array.append(132.32*i/(Vol**(1/3)))
 
+for i in W_array:
+    X_array.append(i*CONV/ITEMP)
+
 print('Directionally-averaged acoustic modes are: ', U_array)
 
 print('Maximum frequencies of acoustic branches are: ', W_array)
+
+print('Nondimensionalized branches are: ', X_array)
+
+## Used Table 1 in Kieffer, 1979c to find SUM
+
+SUM = 0.983426 + 0.976248 + 0.935806
+
+Cv_a = (3*AVO*BOLTZ*SUM*10**-7/(Natoms*Z))*(2/math.pi)*(2/math.pi)*(2/math.pi)
+
+print('Contribution from acoustic modes to Cv: ', Cv_a)
 
 
 ##################### DEBYE TEMP CALCULATION ###########################
@@ -72,7 +86,7 @@ CON3 = 77.92727286*R
 CV = CON1*CON2
 S = CON2*CON3
 
-print('Debye approx. for the heat capacity is: ', CV, ' J/K')
+print('Debye approx. for the heat capacity is: ', CV, ' J/mol.K')
 print('Debye approx. for the entropy is: ', S, ' J/K')
 
 ########################################################################
