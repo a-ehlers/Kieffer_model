@@ -73,13 +73,20 @@ print('Contribution from acoustic modes to Cv: ', Cv_a)
 
 ########################### OPTIC BOX ##################################
 
-WC_array = [wc_L, wc_U]
+x_L = wc_L*CONV/ITEMP
 
-x_WC_array = []
+x_U = wc_U*CONV/ITEMP
 
-for i in WC_array:
-    x_WC_array.append(i*CONV/ITEMP)
+f = lambda X: ((x_U-x_L)/2)*(((((x_U-x_L)*X+x_U+x_L)/2)**2*math.exp(((x_U-x_L)* \
+             X+x_U+x_L)/2))/((x_U - x_L)*(math.exp(((x_U-x_L)*X+x_U+x_L)/2)-1)**2))
 
+##quad_2 = f(-math.sqrt(1/3)) + f(math.sqrt(1/3))
+
+quad_3 = (5/9)*f(-math.sqrt(3/5)) + (8/9)*f(0) + (5/9)*f(math.sqrt(3/5))
+
+Cv_o = 3*AVO*BOLTZ*(1-1/Natoms-q_c)*quad_3
+
+print('Contibution from optic box to Cv: ', Cv_o)
 ########################################################################
 
 WE_array = [wE_1, wE_2, wE_3]
