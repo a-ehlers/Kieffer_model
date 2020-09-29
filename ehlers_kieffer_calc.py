@@ -10,6 +10,15 @@ Vmax = 4.87
 Vol = 130.5
 Z = 2
 Natoms = 6
+wc_L = 142
+wc_U = 608
+q_c = 0.22
+wE_1 = 974
+q_1 = 0.055
+wE_2 = 1000
+q_2 = 0.11
+wE_3 = 885
+q_3 = 0.055
 
 ## Constants
 ITEMP = 298
@@ -59,6 +68,26 @@ Cv_a = (3*AVO*BOLTZ*SUM*10**-7/(Natoms*Z))*(2/math.pi)*(2/math.pi)*(2/math.pi)
 
 print('Contribution from acoustic modes to Cv: ', Cv_a)
 
+########################################################################
+
+
+########################### OPTIC BOX ##################################
+
+WC_array = [wc_L, wc_U]
+
+x_WC_array = []
+
+for i in WC_array:
+    x_WC_array.append(i*CONV/ITEMP)
+
+########################################################################
+
+WE_array = [wE_1, wE_2, wE_3]
+
+x_WE_array = []
+
+for i in WE_array:
+    x_WE_array.append(i*CONV/ITEMP)
 
 ##################### DEBYE TEMP CALCULATION ###########################
 
