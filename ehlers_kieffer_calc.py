@@ -21,12 +21,12 @@ wE_3 = 885
 q_3 = 0.055
 
 ## Constants
-ITEMP = 298
-AVO = 6.023*10**23
-SPEED = 3*10**10
-BOLTZ = 1.38*10**-23
-PLANCK = 6.626*10**-34
-R = 8.3145
+ITEMP = 298 # K
+AVO = 6.023*10**23 # 1/mol
+SPEED = 3*10**10 # m/s
+BOLTZ = 1.38*10**-23 # J/K
+PLANCK = 6.626*10**-34 # J.s
+R = 8.3145 # J/mol.K
 CONV = SPEED*PLANCK/BOLTZ
 
 ######################### ACOUSTIC MODES ###############################
@@ -35,18 +35,19 @@ u2 = (2/(Vs**(-3) + Vmax**(-3)))**(1/3)
 u1 = (1/(2*(Vs**(-3)) - u2**(-3)))**(1/3)
 u3 = Vp
 
+print(u2)
+
 U_array = [u1, u2, u3]
 W_array = []
 X_array = []
 
-
 Vmol = Vol*0.6023/Z
 
-print('Molar volume of zircon is: ', Vmol, 'cm^3')
+##print('Molar volume of zircon is: ', Vmol, 'cm^3')
 
 Kmax = (6*(math.pi)*(math.pi)*(10**24)/Vol)**1/3
 
-print('Radius of Kmax of Brillouin zone (cm-1): ', '{:e}'.format(Kmax))
+##print('Radius of Kmax of Brillouin zone (cm-1): ', '{:e}'.format(Kmax))
 
 for i in U_array:
     W_array.append(132.32*i/(Vol**(1/3)))
@@ -54,22 +55,22 @@ for i in U_array:
 for i in W_array:
     X_array.append(i*CONV/ITEMP)
 
-print('Directionally-averaged acoustic modes are: ', U_array)
+##print('Directionally-averaged acoustic modes are: ', U_array)
 
-print('Maximum frequencies of acoustic branches are: ', W_array)
+##print('Maximum frequencies of acoustic branches are: ', W_array)
 
-print('Nondimensionalized branches are: ', X_array)
+##print('Nondimensionalized branches are: ', X_array)
 
 ## Used Table 1 in Kieffer, 1979c to find SUM
 
-SUM = 0.983426 + 0.976248 + 0.935806
+##SUM = 0.983426 + 0.976248 + 0.935806
 
-Cv_a = (3*AVO*BOLTZ*SUM*10**-7/(Natoms*Z))*(2/math.pi)*(2/math.pi)*(2/math.pi)
+SUM = 0.983426*2 + 0.935806
 
-print('Contribution from acoustic modes to Cv: ', Cv_a)
+Cv_a = (3*AVO*BOLTZ*SUM/(Natoms*Z))*(2/math.pi)*(2/math.pi)*(2/math.pi)
 
+print('Contribution from acoustic modes to Cv: ', Cv_a, ' J/mol.K')
 ########################################################################
-
 
 ########################### OPTIC BOX ##################################
 
@@ -86,15 +87,34 @@ quad_3 = (5/9)*f(-math.sqrt(3/5)) + (8/9)*f(0) + (5/9)*f(math.sqrt(3/5))
 
 Cv_o = 3*AVO*BOLTZ*(1-1/Natoms-q_c)*quad_3
 
-print('Contibution from optic box to Cv: ', Cv_o)
+print('Contibution from optic box to Cv: ', Cv_o, ' J/mol.K')
 ########################################################################
+
+######################## EINSTEIN OSCILLATORS ##########################
 
 WE_array = [wE_1, wE_2, wE_3]
 
 x_WE_array = []
 
+ein_array = []
+
 for i in WE_array:
     x_WE_array.append(i*CONV/ITEMP)
+    
+for i in x_WE_array:
+    ein_array.append((i**2*math.exp(i))/((math.exp(i)-1)**2))
+
+Cv_e = 3*AVO*BOLTZ*(q_1*ein_array[0] + q_2*ein_array[1] + q_3*ein_array[2])
+
+print('Contribution from Einstein oscillators to Cv: ', Cv_e, ' J/mol.K')
+
+Cv = Cv_a + Cv_o + Cv_e
+
+print('The heat capacity for zircon is: ', Cv, ' J/mol.K')
+
+print('----------------------------------------')
+
+########################################################################
 
 ##################### DEBYE TEMP CALCULATION ###########################
 
