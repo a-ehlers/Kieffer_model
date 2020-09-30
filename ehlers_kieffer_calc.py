@@ -57,7 +57,7 @@ for i in W_array:
 
 ##print('Maximum frequencies of acoustic branches are: ', W_array)
 
-print('Nondimensionalized branches are: ', X_array)
+##print('Nondimensionalized branches are: ', X_array)
 
 ## Used Table 1 in Kieffer, 1979c to find SUM
 
@@ -67,7 +67,7 @@ SUM = 0.983426*2 + 0.935806
 
 Cv_a = (3*AVO*BOLTZ*SUM/(Natoms*Z))*(2/math.pi)*(2/math.pi)*(2/math.pi)
 
-print('Contribution from acoustic modes to Cv: ', Cv_a, ' J/mol.K')
+print('Contribution from acoustic modes to Cv: ', format(Cv_a, '.2f'), ' J/mol.K')
 ########################################################################
 
 ########################### OPTIC BOX ##################################
@@ -85,11 +85,11 @@ f = lambda X: ((x_U-x_L)/2)*(((((x_U-x_L)*X+x_U+x_L)/2)**2*math.exp(((x_U-x_L)* 
 
 quad_3 = (5/9)*f(-math.sqrt(3/5)) + (8/9)*f(0) + (5/9)*f(math.sqrt(3/5))
 
-print(quad_3)
+##print(quad_3)
 
 Cv_o = 3*AVO*BOLTZ*(1-1/(Natoms*Z)-q_c)*quad_3
 
-print('Contibution from optic box to Cv: ', Cv_o, ' J/mol.K')
+print('Contibution from optic box to Cv: ', format(Cv_o, '.2f'), ' J/mol.K')
 ########################################################################
 
 ######################## EINSTEIN OSCILLATORS ##########################
@@ -108,13 +108,13 @@ for i in x_WE_array:
 
 Cv_e = 3*AVO*BOLTZ*(q_1*ein_array[0] + q_2*ein_array[1] + q_3*ein_array[2])
 
-print('Contribution from Einstein oscillators to Cv: ', Cv_e, ' J/mol.K')
+print('Contribution from Einstein oscillators to Cv: ', format(Cv_e, '.2f'), ' J/mol.K')
 
 Cv = Cv_a + Cv_o + Cv_e
 
-print('The heat capacity for zircon is: ', Cv, ' J/mol.K')
+print('The heat capacity for zircon is: ', format(Cv, '.2f'), ' J/mol.K')
 
-print('----------------------------------------')
+print('--------------------------------------------------------------')
 
 ########################################################################
 
@@ -134,17 +134,17 @@ A4 = (A2/A3)**(1/3)
 
 DTEMP = A1*A4*VRH2
 
-print('The Debye temperature for zircon is: ', DTEMP, 'K.')
+print('The Debye temperature for zircon is: ', format(DTEMP, '.2f'), 'K.')
 
 ## Debye approximation of Cv and S
 
 CON1 = 233.7818186*R
 CON2 = (ITEMP**3)/(DTEMP**3)
 CON3 = 77.92727286*R
-CV = CON1*CON2
-S = CON2*CON3
+CV_debye = CON1*CON2
+S_debye = CON2*CON3
 
-print('Debye approx. for the heat capacity is: ', CV, ' J/mol.K')
-print('Debye approx. for the entropy is: ', S, ' J/K')
+print('Debye approx. for the heat capacity is: ', format(CV_debye, '.2f'), ' J/mol.K')
+print('Debye approx. for the entropy is: ', format(S_debye, '.2f'), ' J/K')
 
 ########################################################################
