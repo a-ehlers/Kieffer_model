@@ -21,7 +21,7 @@ wE_3 = 885
 q_3 = 0.055
 
 ## Constants
-ITEMP = 298 # K
+ITEMP = 300 # K
 AVO = 6.023*10**23 # 1/mol
 SPEED = 3*10**10 # m/s
 BOLTZ = 1.38*10**-23 # J/K
@@ -34,8 +34,6 @@ CONV = SPEED*PLANCK/BOLTZ
 u2 = (2/(Vs**(-3) + Vmax**(-3)))**(1/3)
 u1 = (1/(2*(Vs**(-3)) - u2**(-3)))**(1/3)
 u3 = Vp
-
-print(u2)
 
 U_array = [u1, u2, u3]
 W_array = []
@@ -59,11 +57,11 @@ for i in W_array:
 
 ##print('Maximum frequencies of acoustic branches are: ', W_array)
 
-##print('Nondimensionalized branches are: ', X_array)
+print('Nondimensionalized branches are: ', X_array)
 
 ## Used Table 1 in Kieffer, 1979c to find SUM
 
-##SUM = 0.983426 + 0.976248 + 0.935806
+##SUM = 0.989350 + 0.983426 + 0.935806
 
 SUM = 0.983426*2 + 0.935806
 
@@ -73,6 +71,8 @@ print('Contribution from acoustic modes to Cv: ', Cv_a, ' J/mol.K')
 ########################################################################
 
 ########################### OPTIC BOX ##################################
+
+# f is Gaussian quadrature function: x^2*exp(x)/(xU-xL)*(exp(x)-1)^2
 
 x_L = wc_L*CONV/ITEMP
 
@@ -85,7 +85,9 @@ f = lambda X: ((x_U-x_L)/2)*(((((x_U-x_L)*X+x_U+x_L)/2)**2*math.exp(((x_U-x_L)* 
 
 quad_3 = (5/9)*f(-math.sqrt(3/5)) + (8/9)*f(0) + (5/9)*f(math.sqrt(3/5))
 
-Cv_o = 3*AVO*BOLTZ*(1-1/Natoms-q_c)*quad_3
+print(quad_3)
+
+Cv_o = 3*AVO*BOLTZ*(1-1/(Natoms*Z)-q_c)*quad_3
 
 print('Contibution from optic box to Cv: ', Cv_o, ' J/mol.K')
 ########################################################################
