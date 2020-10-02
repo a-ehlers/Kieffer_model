@@ -35,9 +35,9 @@ u2 = (2/(Vs**(-3) + Vmax**(-3)))**(1/3)
 u1 = (1/(2*(Vs**(-3)) - u2**(-3)))**(1/3)
 u3 = Vp
 
-U_array = [u1, u2, u3]
-W_array = []
-X_array = []
+U_array = [u1, u2, u3] # Directionally-averaged acoustic modes
+W_array = [] # Maximum frequencies of acoustic branches
+X_array = [] # Nondimensionalized branches
 
 Vmol = Vol*0.6023/Z
 
@@ -53,17 +53,31 @@ for i in U_array:
 for i in W_array:
     X_array.append(i*CONV/ITEMP)
 
-##print('Directionally-averaged acoustic modes are: ', U_array)
+acoustic_1 = round(X_array[0],1)
+acoustic_2 = round(X_array[1],1)
+acoustic_3 = round(X_array[2],1)
 
-##print('Maximum frequencies of acoustic branches are: ', W_array)
+infile = open('disp_sine_table.txt') # Table 1 in Kieffer, 1979c
+array = []
 
-##print('Nondimensionalized branches are: ', X_array)
+for line in infile:
+    array.append([float(x) for x in line.split()])
 
-## Used Table 1 in Kieffer, 1979c to find SUM
+array_new = []
 
-##SUM = 0.989350 + 0.983426 + 0.935806
+for i in array:
+    array_new = i
+    if array_new[0] == acoustic_1:
+        SUM1 = array_new[1]
+        print(SUM1)
+    if array_new[0] == acoustic_2:
+        SUM2 = array_new[1]
+        print(SUM2)
+    if array_new[0] == acoustic_3:
+        SUM3 = array_new[1]
+        print(SUM3)
 
-SUM = 0.983426*2 + 0.935806
+SUM = SUM1 + SUM2 + SUM3
 
 Cv_a = (3*AVO*BOLTZ*SUM/(Natoms*Z))*(2/math.pi)*(2/math.pi)*(2/math.pi)
 
