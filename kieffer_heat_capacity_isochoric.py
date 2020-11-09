@@ -60,6 +60,12 @@ acoustic_3 = X_array[2]
 def integrand(x):
     return ((math.asin(x/acoustic_1)**2.)*(x**2.)*(math.exp(x)))/(math.sqrt(acoustic_1**2.-x**2)*((math.exp(x))-1.)**2.)
 
+
+dummy = default_value
+for i in range(3)
+    dummy+= integrand(dummy)
+SUM = dummy
+
 SUM1 = quad(integrand, 0, acoustic_1)
 
 def integrand(x):
