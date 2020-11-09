@@ -60,17 +60,7 @@ for i in X_array:
     result,error = quad(lambda x: ((math.asin(x/i)**2.)*(x**2.)*(math.exp(x)))/(math.sqrt(i**2.-x**2)*((math.exp(x))-1.)**2.)
 , 0, i)
 
-<<<<<<< HEAD
     acoustic.append(result)
-=======
-
-dummy = default_value
-for i in range(3)
-    dummy+= integrand(dummy)
-SUM = dummy
-
-SUM1 = quad(integrand, 0, acoustic_1)
->>>>>>> b1d28d5c8fc1d3aacbf55ae7e39ee4f86d9a851f
 
 print(acoustic)
 
