@@ -21,7 +21,7 @@ q_2 = 0.11
 wE_3 = 885
 q_3 = 0.055
 
-ITEMP = 500 # Kelvin
+ITEMP = 1000 # Kelvin
 
 ## Constants
 AVO = 6.023e23 # 1/mole
@@ -51,30 +51,20 @@ Kmax = (6.*(math.pi)*(math.pi)*(10**24)/Vol)**1./3.
 for i in U_array:
     X_array.append((132.32*i/(Vol**(1./3.)))*CONV/ITEMP)
 
-print(X_array)
+##print(X_array)
 
-acoustic_1 = X_array[0]
-acoustic_2 = X_array[1]
-acoustic_3 = X_array[2]
+acoustic=[]
 
-def integrand(x):
-    return ((math.asin(x/acoustic_1)**2.)*(x**2.)*(math.exp(x)))/(math.sqrt(acoustic_1**2.-x**2)*((math.exp(x))-1.)**2.)
+for i in X_array:
+    # integrate acoustic function
+    result,error = quad(lambda x: ((math.asin(x/i)**2.)*(x**2.)*(math.exp(x)))/(math.sqrt(i**2.-x**2)*((math.exp(x))-1.)**2.)
+, 0, i)
 
-SUM1 = quad(integrand, 0, acoustic_1)
+    acoustic.append(result)
 
-def integrand(x):
-    return ((math.asin(x/acoustic_2)**2.)*(x**2.)*(math.exp(x)))/(math.sqrt(acoustic_2**2.-x**2)*((math.exp(x))-1.)**2.)
+print(acoustic)
 
-SUM2 = quad(integrand, 0, acoustic_2)
-
-def integrand(x):
-    return ((math.asin(x/acoustic_3)**2.)*(x**2.)*(math.exp(x)))/(math.sqrt(acoustic_3**2.-x**2)*((math.exp(x))-1.)**2.)
-
-SUM3 = quad(integrand, 0, acoustic_3)
-
-##print(SUM1[0], SUM2[0], SUM3[0])
-
-SUM = SUM1[0] + SUM2[0] + SUM3[0]
+SUM = acoustic[0]+acoustic[1]+acoustic[2]
 
 Cv_a = (3.*AVO*BOLTZ*SUM/(Natoms*Z))*(2./math.pi)*(2./math.pi)*(2./math.pi)
 
@@ -89,7 +79,7 @@ x_L = wc_L*CONV/ITEMP
 
 x_U = wc_U*CONV/ITEMP
 
-print(x_L, x_U)
+##print(x_L, x_U)
 
 f = lambda X: ((x_U-x_L)/2.)*(((((x_U-x_L)*X+x_U+x_L)/2.)**2.*math.exp(((x_U-x_L)* \
              X+x_U+x_L)/2.))/((x_U - x_L)*(math.exp(((x_U-x_L)*X+x_U+x_L)/2.)-1)**2.))
@@ -102,7 +92,7 @@ quad_3 = (5./9.)*f(-math.sqrt(0.6)) + (8./9.)*f(0) + (5./9.)*f(math.sqrt(0.6))
 
 Cv_o = 3.*AVO*BOLTZ*(1-1./(Natoms*Z)-q_c)*quad_3
 
-print('Contibution from optic box to Cv: ', format(Cv_o, '.2f'), ' J/mol.K')
+print('Contribution from optic box to Cv: ', format(Cv_o, '.2f'), ' J/mol.K')
 ########################################################################
 
 ######################## EINSTEIN OSCILLATORS ##########################
