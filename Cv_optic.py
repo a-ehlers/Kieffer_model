@@ -22,5 +22,5 @@ optic_quad, error = quad(optic, x_L, x_U)
 
 Cv_o = 3.*AVO*BOLTZ*(1.0-1./(Natoms*Z)-q_c)*optic_quad
 
-print('Contribution from optic box to Cv: ', format(Cv_o, '.2f'), ' J/mol.K')
+##print('Contribution from optic box to Cv: ', format(Cv_o, '.2f'), ' J/mol.K')
 ########################################################################
