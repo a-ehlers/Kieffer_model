@@ -11,10 +11,6 @@ from params import *
 
 S_a = []
 
-S_a1 = []
-
-S_a2 = []
-
 for i in ATEMP:
     X_array = [] # Nondimensionalized branches
     for j in U_array:
@@ -41,12 +37,7 @@ for i in ATEMP:
         acoustic_b.append(acoustic_quad_b)
     
     acoustic_S_a = (3.*AVO*BOLTZ*(acoustic_a[0]+acoustic_a[1]+acoustic_a[2])/(Natoms*Z))*(2./math.pi)*(2./math.pi)*(2./math.pi)
-    S_a1.append(acoustic_S_a)
 
     acoustic_S_b = (3.*AVO*BOLTZ*(acoustic_b[0]+acoustic_b[1]+acoustic_b[2])/(Natoms*Z))*(2./math.pi)*(2./math.pi)*(2./math.pi)
-    S_a2.append(acoustic_S_b)
 
-for i in range(len(ATEMP)):
-    S_a.append(S_a1[i] - S_a2[i])
-
-##print(S_a)
+    S_a.append(acoustic_S_a - acoustic_S_b)
