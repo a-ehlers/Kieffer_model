@@ -11,10 +11,6 @@ from params import *
 
 S_o = []
 
-S_o1 = []
-
-S_o2 = []
-
 for i in ATEMP:
     x_L = wc_L*CONV/i #define lower bound of optic box integral
     
@@ -27,8 +23,6 @@ for i in ATEMP:
 
     optic_S_1 = 3.*AVO*BOLTZ*(1.0-1./(Natoms*Z)-q_c)*optic_quad_1
 
-    S_o1.append(optic_S_1)
-
     # Set up second function
 
     def optic_2(x2):
@@ -38,9 +32,4 @@ for i in ATEMP:
     
     optic_S_2 = 3.*AVO*BOLTZ*(1.0-1./(Natoms*Z)-q_c)*optic_quad_2
 
-    S_o2.append(optic_S_2)
-
-for i in range(len(ATEMP)):
-    S_o.append(S_o1[i] - S_o2[i])
-
-##print(S_o) 
+    S_o.append(optic_S_1 - optic_S_2)
